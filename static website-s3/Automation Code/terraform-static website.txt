@@ -1,0 +1,37 @@
+provider "aws" {
+  region = "us-east-1"
+}
+
+# create S3 bucket
+resource "aws_s3_bucket" "my_static_website_bucket" {
+  bucket = "my-static-website-bucket"
+  acl    = "public-read"
+
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+}
+
+# create Lambda function
+resource "aws_lambda_function" "my_lambda_function" {
+  filen ame      = "my_lambda_function.zip"
+  function_name = "my-lambda-function"
+  role          = "${aws_iam_role.lambda_role.arn}"
+
+  handler = "index.handler"
+  runtime = "nodejs12.x"
+
+  environment {
+    variables = {
+      BUCKET_NAME = "${aws_s3_bucket.my_static_website_bucket.bucket}"
+    }
+  }
+}
+
+# create CloudFront distribution
+resource "aws_cloudfront_distribution" "my_cloudfront_distribution" {
+  origin {
+    domain_name = "${aws_s3_bucket.my_static_website_bucket.website_endpoint}"
+
+    custom_origin_config
