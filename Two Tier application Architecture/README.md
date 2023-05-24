@@ -1,5 +1,7 @@
 Deploy 2-Tier application architecture
+
 Stage 1 – Create a basic landing zone
+
 Steps:- 
 •	Create a VPC
 •	Create  4 subnets, 2 in each availability zone
@@ -14,6 +16,7 @@ Stage 2 – Deploy service in a availability zone and establish connectivity
 •	Install RDS instance in private subnet
 •	Establish connectivity between EC2 instance and RDS instance
 •	Open only RDS DB instance port in security group to ensure only web server can reach to RDS instance over Database port.
+
 Stage 3 – Deploy High Availability and testing
 •	Create EC2 instance using AWS Linux AMI with autoscaling group with minimum 1 node in public subnet – 2nd availability zone
 •	Login into EC2 instance and check internet accessibility
